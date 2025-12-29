@@ -1,38 +1,42 @@
 package ru.samung.gamestudio;
 
-import com.badlogic.gdx.ApplicationAdapter;
-import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.Game;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.utils.ScreenUtils;
 
-public class MyGdxGame extends ApplicationAdapter {
-	SpriteBatch batch;
-	Texture birdTexture;
+import ru.samung.gamestudio.screens.ScreenGame;
+import ru.samung.gamestudio.screens.ScreenMenu;
+import ru.samung.gamestudio.screens.ScreenRestart;
 
-	int birdX = 0, birdY = 0;
-	int birdSpeed = 5;
-	
-	@Override
-	public void create () {
-		batch = new SpriteBatch();
-		birdTexture = new Texture("bird0.png");
-	}
+public class MyGdxGame extends Game {
 
-	@Override
-	public void render () {
+    public SpriteBatch batch;
+    public OrthographicCamera camera;
 
-		birdX += birdSpeed;
-		birdY += birdSpeed;
+    public static final int SCR_WIDTH = 1280;
+    public static final int SCR_HEIGHT = 720;
 
-		ScreenUtils.clear(1, 0, 0, 1);
-		batch.begin();
-		batch.draw(birdTexture, birdX, birdY);
-		batch.end();
-	}
-	
-	@Override
-	public void dispose () {
-		batch.dispose();
-		birdTexture.dispose();
-	}
+    public ScreenGame screenGame;
+    public ScreenRestart screenRestart;
+    public ScreenMenu screenMenu;
+
+    @Override
+    public void create() {
+        batch = new SpriteBatch();
+        camera = new OrthographicCamera();
+        camera.setToOrtho(false, SCR_WIDTH, SCR_HEIGHT);
+        screenMenu = new ScreenMenu(this);
+
+        screenGame = new ScreenGame(this);
+        screenRestart = new ScreenRestart(this);
+
+        setScreen(screenMenu);
+    }
+
+
+    @Override
+    public void dispose() {
+
+        batch.dispose();
+    }
 }
